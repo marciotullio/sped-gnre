@@ -1,5 +1,5 @@
 {
-    "name": "sped-gnre2",
+    "name": "inteligenceeerp/sped-gnre2",
     "description": "API para a emissão de guias GNRE para a SEFAZ",
     "license": ["GPL-3.0-or-later", "MIT"],
     "require": {
