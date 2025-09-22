@@ -1,0 +1,921 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NeuraFlow | AI-Powered Productivity</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#1A1F36',
+                        accent: '#0EF6CC',
+                        accent2: '#7B61FF',
+                        dark: '#0F111A',
+                        light: '#F8FAFC'
+                    },
+                    animation: {
+                        'float': 'float 6s ease-in-out infinite',
+                        'float2': 'float 8s ease-in-out infinite',
+                        'float3': 'float 10s ease-in-out infinite',
+                        'glow': 'glow 2s ease-in-out infinite alternate',
+                    },
+                    keyframes: {
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0)' },
+                            '50%': { transform: 'translateY(-20px)' },
+                        },
+                        glow: {
+                            '0%': { 'box-shadow': '0 0 5px -5px #0EF6CC' },
+                            '100%': { 'box-shadow': '0 0 20px 5px #0EF6CC' },
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #0F111A;
+            color: #F8FAFC;
+            scroll-behavior: smooth;
+        }
+        .glass-card {
+            background: rgba(26, 31, 54, 0.6);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid rgba(14, 246, 204, 0.2);
+        }
+
+        .hero-bg {
+            background: linear-gradient(135deg, #1e3a5a 0%, #3b82f6 100%);
+            }
+        .dark .hero-bg {
+            background: none;
+        }
+
+        .testimonial-card {
+            background: linear-gradient(145deg, #1A1F36, #0F111A);
+            box-shadow: 5px 5px 15px rgba(0,0,0,0.3);
+        }
+        .pricing-card:hover {
+            transform: translateY(-10px);
+            border-color: #7B61FF;
+        }
+        .feature-icon {
+            transition: all 0.3s ease;
+        }
+        .feature-card:hover .feature-icon {
+            transform: scale(1.2) rotate(5deg);
+        }
+        .custom-underline {
+            position: relative;
+        }
+        .custom-underline:after {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 2px;
+            bottom: -2px;
+            left: 0;
+            background: linear-gradient(90deg, #0EF6CC, #7B61FF);
+            transform: scaleX(0);
+            transition: transform 0.3s ease;
+        }
+        .custom-underline:hover:after {
+            transform: scaleX(1);
+        }
+        #toggleDarkMode {
+            transition: all 0.3s ease;
+        }
+        #toggleDarkMode:hover {
+            transform: rotate(30deg);
+        }
+        .accordion-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease;
+        }
+        .accordion.active .accordion-content {
+            max-height: 300px;
+        }
+        .chat-message {
+            opacity: 0;
+            transform: translateY(10px);
+            animation: fadeIn 0.3s forwards;
+        }
+        @keyframes fadeIn {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    </style>
+</head>
+<body class="bg-light text-dark dark:bg-dark dark:text-light relative overflow-x-hidden">
+    <!-- Floating particles background -->
+    <div class="absolute inset-0 overflow-hidden pointer-events-none">
+        <div class="absolute w-3 h-3 rounded-full bg-accent opacity-20 animation-float" style="top:20%; left:10%"></div>
+        <div class="absolute w-4 h-4 rounded-full bg-accent2 opacity-20 animation-float2" style="top:40%; left:20%"></div>
+        <div class="absolute w-2 h-2 rounded-full bg-accent opacity-20 animation-float3" style="top:60%; left:50%"></div>
+        <div class="absolute w-3 h-3 rounded-full bg-accent2 opacity-20 animation-float" style="top:80%; left:30%"></div>
+        <div class="absolute w-4 h-4 rounded-full bg-accent opacity-20 animation-float2" style="top:30%; left:80%"></div>
+        <div class="absolute w-2 h-2 rounded-full bg-accent2 opacity-20 animation-float3" style="top:70%; left:70%"></div>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="relative z-50 py-6 px-4 sm:px-10 lg:px-20 xl:px-32 flex justify-between items-center glass-card bg-white text-black dark:bg-primary dark:text-light transition-colors">
+    <div class="flex items-center">
+        <span class="text-2xl font-bold bg-gradient-to-r from-accent to-accent2 bg-clip-text text-transparent dark:text-transparent text-black">AZERO</span>
+    </div>
+    <div class="hidden md:flex space-x-10">
+        <a href="#features" class="custom-underline hover:text-accent transition text-black dark:text-light">Recursos</a>
+        <a href="#demo" class="custom-underline hover:text-accent transition text-black dark:text-light">Demo</a>
+        <a href="#pricing" class="custom-underline hover:text-accent transition text-black dark:text-light">Planos</a>
+        <a href="#faq" class="custom-underline hover:text-accent transition text-black dark:text-light">Dúvidas</a>
+    </div>
+    <div class="flex items-center space-x-4">
+        <button id="toggleDarkMode" class="p-2 rounded-full hover:bg-primary transition">
+            <i class="fas fa-moon text-accent"></i>
+        </button>
+        <button class="md:hidden">
+            <i class="fas fa-bars text-xl text-black dark:text-light"></i>
+        </button>
+    </div>
+</nav>
+
+   <!-- Hero Section -->
+<section class="hero-bg relative py-20 px-4 sm:px-10 lg:px-20 xl:px-32 flex flex-col md:flex-row items-center justify-between min-h-screen">
+    <div class="md:w-1/2 mb-10 md:mb-0 z-10">
+        <h1 class="text-3xl sm:text-4xl lg:text-5xl font-bold leading-tight mb-6">
+            Maximize a <span class="bg-gradient-to-r from-accent to-accent2 bg-clip-text text-transparent">Gestão</span> com um <span class="bg-gradient-to-r from-accent to-accent2 bg-clip-text text-transparent">Sistema de Ponto</span> Inteligente
+        </h1>
+        <p class="text-lg sm:text-xl text-gray-300 mb-10">
+            Simplifique a gestão da jornada dos seus colaboradores com nosso sistema de ponto inteligente, que registra horários, gera relatórios automáticos e otimiza o acompanhamento da produtividade em tempo real.
+        </p>
+
+        <!-- Botões logo abaixo do texto -->
+        <div class="flex flex-col sm:flex-row gap-4">
+            <button class="px-8 py-4 bg-gradient-to-r from-accent to-accent2 text-dark font-bold rounded-lg hover:opacity-90 transition transform hover:scale-105 shadow-lg">
+                Teste Grátis
+            </button>
+            <button class="px-8 py-4 border border-accent text-accent font-bold rounded-lg hover:bg-accent hover:bg-opacity-10 transition transform hover:scale-105">
+                Veja a Demonstração
+            </button>
+        </div>
+    </div>
+    <div class="md:w-1/2 flex justify-center z-10">
+    <div class="relative animation-float">
+        <div class="glass-card p-8 rounded-3xl w-full max-w-md flex flex-col items-center">
+            <div class="bg-white dark:bg-primary rounded-2xl shadow-lg w-full p-8 flex flex-col items-center">
+                <h2 class="text-2xl md:text-3xl font-bold text-center text-dark dark:text-light mb-4">Bem-vindo, Desenvolvedor!</h2>
+                <p class="text-gray-500 dark:text-gray-300 text-center mb-6">Deseja registrar o ponto?</p>
+                <div id="clock" class="text-4xl font-bold text-dark dark:text-light mb-2 text-center">00:00:00</div>
+                <div id="date" class="text-lg text-gray-700 dark:text-gray-300 text-center mb-8"></div>
+                <button class="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-8 rounded-full shadow transition mb-2">
+                    Registrar Ponto
+                </button>
+            </div>
+        </div>
+        <div class="absolute -inset-4 rounded-3xl bg-gradient-to-br from-accent to-accent2 opacity-20 blur-lg -z-10 animation-glow"></div>
+    </div>
+</div>
+    </section>
+
+    <!-- Logo Cloud -->
+    <section class="py-12 px-4 sm:px-10 lg:px-20 xl:px-32 bg-white dark:bg-dark transition-colors">
+        <h3 class="text-center text-gray-400 mb-8">CONFIADO POR EQUIPES INOVADORAS</h3>
+        <div class="flex flex-wrap justify-center items-center gap-8 md:gap-16 opacity-80">
+            <div class="text-2xl font-bold">Google</div>
+            <div class="text-2xl font-bold">Microsoft</div>
+            <div class="text-2xl font-bold">Shopify</div>
+            <div class="text-2xl font-bold">Spotify</div>
+            <div class="text-2xl font-bold">Airbnb</div>
+        </div>
+    </section>
+
+    <!-- Features -->
+<section id="features" class="py-20 px-4 sm:px-10 lg:px-20 xl:px-32 bg-light dark:bg-dark transition-colors">
+    <div class="grid md:grid-cols-2 gap-8 mb-20">
+        
+        <!-- Registro de Ponto Online -->
+        <div class="feature-card p-8 rounded-2xl bg-primary dark:bg-primary border border-transparent hover:border-accent transition hover:border-opacity-100">
+            <div class="w-14 h-14 rounded-lg bg-gradient-to-br from-accent to-accent2 flex items-center justify-center text-2xl text-dark mb-6 feature-icon">
+                <i class="fas fa-clock"></i>
+            </div>
+            <h3 class="text-xl font-bold mb-3 text-light">Registro de Ponto Online</h3>
+            <p class="text-gray-400">
+                Permita que seus colaboradores registrem entradas e saídas em tempo real, de qualquer dispositivo, com total segurança.
+            </p>
+        </div>
+
+        <!-- Relatórios Automáticos -->
+        <div class="feature-card p-8 rounded-2xl bg-primary dark:bg-primary border border-transparent hover:border-accent transition hover:border-opacity-100">
+            <div class="w-14 h-14 rounded-lg bg-gradient-to-br from-accent to-accent2 flex items-center justify-center text-2xl text-dark mb-6 feature-icon">
+                <i class="fas fa-file-alt"></i>
+            </div>
+            <h3 class="text-xl font-bold mb-3 text-light">Relatórios Automáticos</h3>
+            <p class="text-gray-400">
+                Gere relatórios completos de jornada, horas extras e ausências em poucos cliques, prontos para auditorias e folha de pagamento.
+            </p>
+        </div>
+
+        <!-- Notificações Inteligentes -->
+        <div class="feature-card p-8 rounded-2xl bg-primary dark:bg-primary border border-transparent hover:border-accent transition hover:border-opacity-100">
+            <div class="w-14 h-14 rounded-lg bg-gradient-to-br from-accent to-accent2 flex items-center justify-center text-2xl text-dark mb-6 feature-icon">
+                <i class="fas fa-bell"></i>
+            </div>
+            <h3 class="text-xl font-bold mb-3 text-light">Notificações Inteligentes</h3>
+            <p class="text-gray-400">
+                Receba alertas sobre atrasos, horas extras e inconsistências para agir rapidamente e manter tudo sob controle.
+            </p>
+        </div>
+
+        <!-- Integração com Folha de Pagamento -->
+        <div class="feature-card p-8 rounded-2xl bg-primary dark:bg-primary border border-transparent hover:border-accent transition hover:border-opacity-100">
+            <div class="w-14 h-14 rounded-lg bg-gradient-to-br from-accent to-accent2 flex items-center justify-center text-2xl text-dark mb-6 feature-icon">
+                <i class="fas fa-plug"></i>
+            </div>
+            <h3 class="text-xl font-bold mb-3 text-light">Integração com Folha de Pagamento</h3>
+            <p class="text-gray-400">
+                Exporte automaticamente as horas registradas para o sistema de folha, evitando erros manuais e economizando tempo.
+            </p>
+        </div>
+    </div>
+
+    <!-- Destaque Especial -->
+    <div class="glass-card rounded-2xl p-8 md:p-12 grid md:grid-cols-2 gap-8 items-center">
+        <div>
+            <h3 class="text-2xl font-bold mb-4 text-light">Painel de Acompanhamento em Tempo Real</h3>
+            <p class="text-gray-400 mb-6">
+                Monitore entradas, saídas e horas extras em tempo real. Visualize a presença da equipe em um único painel interativo e fácil de usar.
+            </p>
+            <ul class="space-y-3 text-gray-400">
+                <li class="flex items-start">
+                    <div class="text-accent mr-3 mt-1">
+                        <i class="fas fa-check-circle"></i>
+                    </div>
+                    <span>Visualização instantânea de quem está em turno</span>
+                </li>
+                <li class="flex items-start">
+                    <div class="text-accent mr-3 mt-1">
+                        <i class="fas fa-check-circle"></i>
+                    </div>
+                    <span>Alertas automáticos para ausências e atrasos</span>
+                </li>
+                <li class="flex items-start">
+                    <div class="text-accent mr-3 mt-1">
+                        <i class="fas fa-check-circle"></i>
+                    </div>
+                    <span>Relatórios detalhados para gestão estratégica</span>
+                </li>
+            </ul>
+        </div>
+        <div class="relative">
+            <div class="bg-gradient-to-br from-dark to-primary rounded-xl overflow-hidden border border-gray-700 p-4">
+                <div class="bg-primary p-3 rounded-lg mb-4">
+                    <div class="flex items-center mb-3">
+                        <div class="w-8 h-8 rounded-full bg-accent flex items-center justify-center text-dark mr-3">
+                            <i class="fas fa-chart-line"></i>
+                        </div>
+                        <div>
+                            <div class="font-medium text-light">Painel em Tempo Real</div>
+                            <div class="text-xs text-gray-400">Gestão de Jornada</div>
+                        </div>
+                    </div>
+                    <div class="text-sm text-gray-300">
+                        Acompanhe a presença da equipe agora mesmo: veja quem está em turno, quem está ausente e as horas extras acumuladas.
+                    </div>
+                </div>
+            </div>
+            <div class="absolute -inset-4 rounded-xl bg-gradient-to-br from-accent to-accent2 opacity-10 blur-lg -z-10"></div>
+        </div>
+    </div>
+</section>
+
+    <!-- Demo Section -->
+    <section id="demo" class="py-20 px-4 sm:px-10 lg:px-20 xl:px-32">
+        <div class="max-w-6xl mx-auto">
+            <div class="grid md:grid-cols-2 gap-12 items-center">
+                <div>
+                    <h2 class="text-3xl sm:text-4xl font-bold mb-6">Veja na Prática</h2>
+                    <p class="text-lg text-gray-400 mb-8">
+                        Descubra como o Azero Ponto simplifica o registro de jornada. Experimente nossa demonstração interativa e veja como é fácil acompanhar horários em tempo real.
+                    </p>
+                    <div class="space-y-4">
+    <div class="flex items-start">
+        <div class="text-accent mr-4 mt-1">
+            <i class="fas fa-door-open"></i>
+        </div>
+        <div>
+            <h4 class="font-bold mb-1">1. Entrada</h4>
+            <p class="text-gray-400">
+                Registre o início da jornada de trabalho com apenas um clique, garantindo precisão e segurança no controle de horários.
+            </p>
+        </div>
+    </div>
+    <div class="flex items-start">
+        <div class="text-accent mr-4 mt-1">
+            <i class="fas fa-mug-hot"></i>
+        </div>
+        <div>
+            <h4 class="font-bold mb-1">2. Pausa</h4>
+            <p class="text-gray-400">
+                Marque pausas para descanso ou almoço de forma simples, mantendo a transparência e o cumprimento das normas trabalhistas.
+            </p>
+        </div>
+    </div>
+    <div class="flex items-start">
+        <div class="text-accent mr-4 mt-1">
+            <i class="fas fa-coffee"></i>
+        </div>
+        <div>
+            <h4 class="font-bold mb-1">3. Retorno</h4>
+            <p class="text-gray-400">
+               Registre o retorno da pausa rapidamente para manter o acompanhamento correto do tempo de trabalho efetivo.
+            </p>
+        </div>
+    </div>
+    <div class="flex items-start">
+        <div class="text-accent mr-4 mt-1">
+            <i class="fas fa-door-closed"></i>
+        </div>
+        <div>
+            <h4 class="font-bold mb-1">4. Saída</h4>
+            <p class="text-gray-400">
+               Finalize o expediente de maneira prática e gere automaticamente os dados para relatórios e cálculos de horas.
+            </p>
+        </div>
+    </div>
+</div>
+            </div>
+                </div>
+                <div class="relative">
+                    <div class="glass-card rounded-2xl overflow-hidden p-6">
+                        <div class="bg-gradient-to-b from-dark to-primary rounded-xl overflow-hidden border border-gray-700">
+                            <div class="p-4 border-b border-gray-700 flex items-center justify-between">
+                                <div class="flex items-center">
+                                    <div class="w-3 h-3 rounded-full bg-accent mr-2"></div>
+                                    <span class="text-sm font-medium">NeuraFlow AI Demo</span>
+                                </div>
+                                <div class="flex space-x-2">
+                                    <button class="w-6 h-6 rounded-full bg-dark border border-gray-700 flex items-center justify-center text-xs">
+                                        <i class="fas fa-microphone text-accent"></i>
+                                    </button>
+                                    <button class="w-6 h-6 rounded-full bg-dark border border-gray-700 flex items-center justify-center text-xs">
+                                        <i class="fas fa-ellipsis-h"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="p-4" style="height: 300px; overflow-y: auto;">
+                                <div class="chat-message" style="animation-delay: 0.2s">
+                                    <div class="flex items-start mb-3">
+                                        <div class="w-8 h-8 rounded-full bg-accent flex items-center justify-center text-dark mr-3">
+                                            <i class="fas fa-robot"></i>
+                                        </div>
+                                        <div>
+                                            <div class="text-sm font-medium text-accent mb-1">NeuraFlow AI</div>
+                                            <div class="bg-dark rounded-lg p-3 text-sm">
+                                                Hi! I'm your AI productivity assistant. Try asking me to:
+                                                <div class="mt-2 space-y-1">
+                                                    <div class="text-xs p-2 bg-primary rounded hover:bg-gray-800 cursor-pointer">Schedule a meeting with John next week</div>
+                                                    <div class="text-xs p-2 bg-primary rounded hover:bg-gray-800 cursor-pointer">Draft an email to the team about the Q2 goals</div>
+                                                    <div class="text-xs p-2 bg-primary rounded hover:bg-gray-800 cursor-pointer">Set up a reminder to follow up on the client proposal</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="chat-message" style="animation-delay: 1s">
+                                    <div class="flex items-start mb-3">
+                                        <div class="w-8 h-8 rounded-full bg-primary border border-gray-700 flex items-center justify-center text-accent mr-3">
+                                            <i class="fas fa-user"></i>
+                                        </div>
+                                        <div>
+                                            <div class="text-sm font-medium text-accent mb-1">You</div>
+                                            <div class="bg-primary rounded-lg p-3 text-sm border border-gray-700">
+                                                Send email to the marketing team about the new campaign, attach the creative brief, and schedule a review meeting for next Monday
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="chat-message" style="animation-delay: 2s">
+                                    <div class="flex items-start">
+                                        <div class="w-8 h-8 rounded-full bg-accent flex items-center justify-center text-dark mr-3">
+                                            <i class="fas fa-robot"></i>
+                                        </div>
+                                        <div>
+                                            <div class="text-sm font-medium text-accent mb-1">NeuraFlow AI</div>
+                                            <div class="bg-dark rounded-lg p-3 text-sm">
+                                                <div class="mb-2">Done! Here's what I've completed:</div>
+                                                <div class="text-xs space-y-2">
+                                                    <div class="flex items-center">
+                                                        <i class="fas fa-check-circle text-green-400 mr-2"></i>
+                                                        <span>Drafted email to marketing@company.com</span>
+                                                    </div>
+                                                    <div class="flex items-center">
+                                                        <i class="fas fa-check-circle text-green-400 mr-2"></i>
+                                                        <span>Attached "Campaign_Creative_Brief.pdf"</span>
+                                                    </div>
+                                                    <div class="flex items-center">
+                                                        <i class="fas fa-check-circle text-green-400 mr-2"></i>
+                                                        <span>Scheduled review meeting for Mon, 9:30am</span>
+                                                    </div>
+                                                    <div class="flex items-center">
+                                                        <i class="fas fa-check-circle text-green-400 mr-2"></i>
+                                                        <span>Sent calendar invites to 6 team members</span>
+                                                    </div>
+                                                </div>
+                                                <div class="mt-3 text-xs text-gray-400">
+                                                    <i class="fas fa-clock mr-1"></i> Completed in 12 seconds
+                                                </div>
+                                            </div>
+                                        </div>
+                                </div>
+                            </div>
+                            <div class="p-4 border-t border-gray-700">
+                                <div class="relative">
+                                    <input type="text" placeholder="Type your request here..." class="w-full bg-dark rounded-full py-3 px-5 text-sm focus:outline-none focus:ring-2 focus:ring-accent">
+                                    <button class="absolute right-3 top-2 text-accent">
+                                        <i class="far fa-paper-plane"></i>
+                                    </button>
+                                </div>
+                                <div class="text-xs text-center text-gray-500 mt-2">
+                                    <span class="hidden sm:inline">Try: "Schedule a 30-minute focus session every morning this week" or</span>
+                                    <button class="underline text-accent hover:no-underline">View more examples</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="absolute -inset-4 rounded-2xl bg-gradient-to-br from-accent to-accent2 opacity-10 blur-lg -z-10"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Pricing -->
+    <section id="pricing" class="py-20 px-4 sm:px-10 lg:px-20 xl:px-32 bg-gradient-to-b from-dark/60 to-primary/30">
+        <div class="max-w-4xl mx-auto text-center mb-16">
+            <h2 class="text-3xl sm:text-4xl font-bold mb-6">Simple, Transparent Pricing</h2>
+            <p class="text-lg text-gray-400">
+                Choose the plan that fits your needs. Try risk-free with our 14-day money back guarantee.
+            </p>
+        </div>
+        
+        <div class="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto">
+            <div class="pricing-card glass-card p-8 rounded-2xl border border-gray-700 transition duration-300 hover:shadow-xl">
+                <h3 class="text-xl font-bold mb-3">Starter</h3>
+                <p class="text-gray-400 mb-6">For individuals getting started with AI productivity</p>
+                <div class="text-4xl font-bold mb-6">
+                    $0<span class="text-xl text-gray-400">/month</span>
+                </div>
+                <ul class="space-y-4 mb-8">
+                    <li class="flex items-start">
+                        <div class="text-accent mr-3 mt-1">
+                            <i class="fas fa-check"></i>
+                        </div>
+                        <span>Basic task automation</span>
+                    </li>
+                    <li class="flex items-start">
+                        <div class="text-accent mr-3 mt-1">
+                            <i class="fas fa-check"></i>
+                        </div>
+                        <span>Simple scheduling</span>
+                    </li>
+                    <li class="flex items-start">
+                        <div class="text-gray-600 mr-3 mt-1">
+                            <i class="fas fa-times"></i>
+                        </div>
+                        <span class="text-gray-500">Advanced analytics</span>
+                    </li>
+                    <li class="flex items-start">
+                        <div class="text-gray-600 mr-3 mt-1">
+                            <i class="fas fa-times"></i>
+                        </div>
+                        <span class="text-gray-500">Team features</span>
+                    </li>
+                    <li class="flex items-start">
+                        <div class="text-gray-600 mr-3 mt-1">
+                            <i class="fas fa-times"></i>
+                        </div>
+                        <span class="text-gray-500">Priority support</span>
+                    </li>
+                </ul>
+                <button class="w-full py-3 rounded-lg border border-accent text-accent font-medium hover:bg-accent hover:bg-opacity-10 transition">
+                    Get Started
+                </button>
+            </div>
+            
+            <div class="pricing-card glass-card p-8 rounded-2xl border-2 border-accent transition duration-300 hover:shadow-xl relative overflow-hidden">
+                <div class="absolute top-0 right-0 py-1 px-4 bg-accent text-dark font-bold text-xs rotate-45 translate-x-9 translate-y-3">
+                    POPULAR
+                </div>
+                <h3 class="text-xl font-bold mb-3">Professional</h3>
+                <p class="text-gray-400 mb-6">For professionals serious about productivity</p>
+                <div class="text-4xl font-bold mb-6">
+                    $19<span class="text-xl text-gray-400">/month</span>
+                </div>
+                <ul class="space-y-4 mb-8">
+                    <li class="flex items-start">
+                        <div class="text-accent mr-3 mt-1">
+                            <i class="fas fa-check"></i>
+                        </div>
+                        <span>All Starter features</span>
+                    </li>
+                    <li class="flex items-start">
+                        <div class="text-accent mr-3 mt-1">
+                            <i class="fas fa-check"></i>
+                        </div>
+                        <span>Advanced AI automation</span>
+                    </li>
+                    <li class="flex items-start">
+                        <div class="text-accent mr-3 mt-1">
+                            <i class="fas fa-check"></i>
+                        </div>
+                        <span>Deep insights & analytics</span>
+                    </li>
+                    <li class="flex items-start">
+                        <div class="text-accent mr-3 mt-1">
+                            <i class="fas fa-check"></i>
+                        </div>
+                        <span>Smart integrations</span>
+                    </li>
+                    <li class="flex items-start">
+                        <div class="text-gray-600 mr-3 mt-1">
+                            <i class="fas fa-times"></i>
+                        </div>
+                        <span class="text-gray-500">Team dashboard</span>
+                    </li>
+                </ul>
+                <button class="w-full py-3 rounded-lg bg-gradient-to-r from-accent to-accent2 text-dark font-medium hover:opacity-90 transition">
+                    Try Free for 14 Days
+                </button>
+            </div>
+            
+            <div class="pricing-card glass-card p-8 rounded-2xl border border-gray-700 transition duration-300 hover:shadow-xl">
+                <h3 class="text-xl font-bold mb-3">Enterprise</h3>
+                <p class="text-gray-400 mb-6">For teams and organizations</p>
+                <div class="text-4xl font-bold mb-6">
+                    Custom
+                </div>
+                <ul class="space-y-4 mb-8">
+                    <li class="flex items-start">
+                        <div class="text-accent mr-3 mt-1">
+                            <i class="fas fa-check"></i>
+                        </div>
+                        <span>All Professional features</span>
+                    </li>
+                    <li class="flex items-start">
+                        <div class="text-accent mr-3 mt-1">
+                            <i class="fas fa-check"></i>
+                        </div>
+                        <span>Team dashboard & analytics</span>
+                    </li>
+                    <li class="flex items-start">
+                        <div class="text-accent mr-3 mt-1">
+                            <i class="fas fa-check"></i>
+                        </div>
+                        <span>Custom AI training</span>
+                    </li>
+                    <li class="flex items-start">
+                        <div class="text-accent mr-3 mt-1">
+                            <i class="fas fa-check"></i>
+                        </div>
+                        <span>Dedicated support</span>
+                    </li>
+                    <li class="flex items-start">
+                        <div class="text-accent mr-3 mt-1">
+                            <i class="fas fa-check"></i>
+                        </div>
+                        <span>API access</span>
+                    </li>
+                </ul>
+                <button class="w-full py-3 rounded-lg border border-accent text-accent font-medium hover:bg-accent hover:bg-opacity-10 transition">
+                    Contact Sales
+                </button>
+            </div>
+        </div>
+        
+        <div class="max-w-2xl mx-auto mt-16 glass-card rounded-2xl p-6 text-center">
+            <h4 class="font-bold text-lg mb-3">Not sure which plan is right for you?</h4>
+            <p class="text-gray-400 mb-4">Take our 30-second quiz to find the perfect plan based on your needs.</p>
+            <button class="text-accent font-medium flex items-center justify-center mx-auto">
+                Take the quiz
+                <i class="fas fa-arrow-right ml-2"></i>
+            </button>
+        </div>
+    </section>
+
+    <!-- FAQ -->
+    <section id="faq" class="py-20 px-4 sm:px-10 lg:px-20 xl:px-32">
+        <div class="max-w-4xl mx-auto">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl sm:text-4xl font-bold mb-6">Frequently Asked Questions</h2>
+                <p class="text-lg text-gray-400">
+                    Everything you need to know about the product and billing.
+                </p>
+            </div>
+            
+            <div class="space-y-4">
+                <div class="accordion glass-card rounded-xl p-6">
+                    <button class="accordion-header w-full flex justify-between items-center text-left">
+                        <h4 class="font-bold text-lg">How does the AI learn my work patterns?</h4>
+                        <i class="fas fa-chevron-down text-accent transition-transform duration-300"></i>
+                    </button>
+                    <div class="accordion-content mt-4">
+                        <p class="text-gray-400">
+                            NeuraFlow uses machine learning to analyze your calendar events, task completion times, work hours, and productivity patterns. Over time, it builds a personalized model of when you're most focused, which tasks take you longest, and how to optimally arrange your schedule. The more you use it, the smarter it gets.
+                        </p>
+                    </div>
+                </div>
+                
+                <div class="accordion glass-card rounded-xl p-6">
+                    <button class="accordion-header w-full flex justify-between items-center text-left">
+                        <h4 class="font-bold text-lg">What platforms and apps does NeuraFlow integrate with?</h4>
+                        <i class="fas fa-chevron-down text-accent transition-transform duration-300"></i>
+                    </button>
+                    <div class="accordion-content mt-4">
+                        <p class="text-gray-400 mb-4">
+                            We integrate with all major productivity platforms including:
+                        </p>
+                        <ul class="grid sm:grid-cols-2 gap-2 text-gray-400">
+                            <li class="flex items-center">
+                                <i class="fas fa-check-circle text-accent mr-2"></i>
+                                <span>Google Workspace (Gmail, Calendar, Drive)</span>
+                            </li>
+                            <li class="flex items-center">
+                                <i class="fas fa-check-circle text-accent mr-2"></i>
+                                <span>Microsoft 365 (Outlook, Teams, OneDrive)</span>
+                            </li>
+                            <li class="flex items-center">
+                                <i class="fas fa-check-circle text-accent mr-2"></i>
+                                <span>Slack</span>
+                            </li>
+                            <li class="flex items-center">
+                                <i class="fas fa-check-circle text-accent mr-2"></i>
+                                <span>Notion</span>
+                            </li>
+                            <li class="flex items-center">
+                                <i class="fas fa-check-circle text-accent mr-2"></i>
+                                <span>Trello</span>
+                            </li>
+                            <li class="flex items-center">
+                                <i class="fas fa-check-circle text-accent mr-2"></i>
+                                <span>Asana</span>
+                            </li>
+                            <li class="flex items-center">
+                                <i class="fas fa-check-circle text-accent mr-2"></i>
+                                <span>Zoom</span>
+                            </li>
+                            <li class="flex items-center">
+                                <i class="fas fa-check-circle text-accent mr-2"></i>
+                                <span>100+ more through Zapier</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="accordion glass-card rounded-xl p-6">
+                    <button class="accordion-header w-full flex justify-between items-center text-left">
+                        <h4 class="font-bold text-lg">Is my data secure with NeuraFlow?</h4>
+                        <i class="fas fa-chevron-down text-accent transition-transform duration-300"></i>
+                    </button>
+                    <div class="accordion-content mt-4">
+                        <p class="text-gray-400 mb-4">
+                            Security is our top priority. We implement enterprise-grade security measures including:
+                        </p>
+                        <ul class="space-y-3 text-gray-400">
+                            <li class="flex items-start">
+                                <div class="text-accent mr-2 mt-1">
+                                    <i class="fas fa-lock"></i>
+                                </div>
+                                <span>End-to-end encryption of all your data</span>
+                            </li>
+                            <li class="flex items-start">
+                                <div class="text-accent mr-2 mt-1">
+                                    <i class="fas fa-shield-alt"></i>
+                                </div>
+                                <span>SOC 2 Type II certified infrastructure</span>
+                            </li>
+                            <li class="flex items-start">
+                                <div class="text-accent mr-2 mt-1">
+                                    <i class="fas fa-user-secret"></i>
+                                </div>
+                                <span>Strict access controls and audit logging</span>
+                            </li>
+                            <li class="flex items-start">
+                                <div class="text-accent mr-2 mt-1">
+                                    <i class="fas fa-cloud"></i>
+                                </div>
+                                <span>Option for on-premises deployment for enterprise clients</span>
+                            </li>
+                        </ul>
+                        <p class="text-gray-400 mt-4">
+                            We never sell or share your data with third parties. Read our <a href="#" class="text-accent">Privacy Policy</a> for more details.
+                        </p>
+                    </div>
+                </div>
+                
+                <div class="accordion glass-card rounded-xl p-6">
+                    <button class="accordion-header w-full flex justify-between items-center text-left">
+                        <h4 class="font-bold text-lg">Can I cancel my subscription anytime?</h4>
+                        <i class="fas fa-chevron-down text-accent transition-transform duration-300"></i>
+                    </button>
+                    <div class="accordion-content mt-4">
+                        <p class="text-gray-400">
+                            Absolutely. You can cancel your NeuraFlow subscription at any time with just a few clicks. When you cancel, you'll continue to have access to all Pro features until the end of your current billing period. We don't believe in locking you in or making cancellation difficult.
+                        </p>
+                        <p class="text-gray-400 mt-2">
+                            If you're on a monthly or yearly plan, your subscription will automatically renew until you cancel. Our 14-day money-back guarantee applies to all new subscriptions.
+                        </p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="text-center mt-16">
+                <h4 class="text-xl font-bold mb-4">Still have questions?</h4>
+                <p class="text-gray-400 mb-6">We're happy to help! Our team typically responds within 1 business day.</p>
+                <button class="px-6 py-3 bg-gradient-to-r from-accent to-accent2 text-dark font-bold rounded-lg hover:opacity-90 transition">
+                    Contact Support
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Final CTA -->
+    <section class="py-20 px-4 sm:px-10 lg:px-20 xl:px-32 bg-gradient-to-br from-primary to-dark text-center">
+        <div class="max-w-3xl mx-auto">
+            <h2 class="text-3xl sm:text-4xl font-bold mb-6">Ready to Transform How You Work?</h2>
+            <p class="text-lg text-gray-300 mb-10">
+                Join thousands of professionals who have boosted their productivity with AI. Sign up today and experience the difference.
+            </p>
+            
+            <div class="flex flex-col sm:flex-row justify-center space-y-4 sm:space-y-0 sm:space-x-6 max-w-lg mx-auto">
+                <div class="relative flex-grow">
+                    <input type="email" placeholder="Enter your email" class="w-full px-5 py-4 rounded-full bg-dark border border-gray-700 focus:outline-none focus:ring-2 focus:ring-accent">
+                    <button class="absolute right-1 top-1 bg-gradient-to-r from-accent to-accent2 text-dark font-bold px-4 py-3 rounded-full hover:opacity-90 transition">
+                        Get Started
+                    </button>
+                </div>
+            </div>
+            
+            <div class="flex justify-center mt-8 space-x-4">
+                <div class="flex items-center text-sm text-gray-400">
+                    <i class="fas fa-check-circle text-green-400 mr-2"></i>
+                    <span>Free 14-day trial</span>
+                </div>
+                <div class="flex items-center text-sm text-gray-400">
+                    <i class="fas fa-check-circle text-green-400 mr-2"></i>
+                    <span>No credit card required</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="py-16 px-4 sm:px-10 lg:px-20 xl:px-32 bg-dark">
+        <div class="grid grid-cols-2 md:grid-cols-5 gap-10 max-w-6xl mx-auto">
+            <div class="col-span-2">
+                <h3 class="text-2xl font-bold bg-gradient-to-r from-accent to-accent2 bg-clip-text text-transparent mb-4">NEURAFLOW</h3>
+                <p class="text-gray-400 mb-6">
+                    AI-powered productivity assistant that helps you work smarter, not harder.
+                </p>
+                <div class="flex space-x-4">
+                    <a href="#" class="w-10 h-10 rounded-full bg-primary flex items-center justify-center text-accent hover:bg-gray-800 transition">
+                        <i class="fab fa-twitter"></i>
+                    </a>
+                    <a href="#" class="w-10 h-10 rounded-full bg-primary flex items-center justify-center text-accent hover:bg-gray-800 transition">
+                        <i class="fab fa-linkedin-in"></i>
+                    </a>
+                    <a href="#" class="w-10 h-10 rounded-full bg-primary flex items-center justify-center text-accent hover:bg-gray-800 transition">
+                        <i class="fab fa-facebook-f"></i>
+                    </a>
+                    <a href="#" class="w-10 h-10 rounded-full bg-primary flex items-center justify-center text-accent hover:bg-gray-800 transition">
+                        <i class="fab fa-instagram"></i>
+                    </a>
+                </div>
+            </div>
+            
+            <div>
+                <h4 class="font-bold text-lg mb-4">Product</h4>
+                <ul class="space-y-3">
+                    <li><a href="#" class="text-gray-400 hover:text-accent transition">Features</a></li>
+                    <li><a href="#" class="text-gray-400 hover:text-accent transition">Pricing</a></li>
+                    <li><a href="#" class="text-gray-400 hover:text-accent transition">Integrations</a></li>
+                    <li><a href="#" class="text-gray-400 hover:text-accent transition">Roadmap</a></li>
+                    <li><a href="#" class="text-gray-400 hover:text-accent transition">Changelog</a></li>
+                </ul>
+            </div>
+            
+            <div>
+                <h4 class="font-bold text-lg mb-4">Resources</h4>
+                <ul class="space-y-3">
+                    <li><a href="#" class="text-gray-400 hover:text-accent transition">Blog</a></li>
+                    <li><a href="#" class="text-gray-400 hover:text-accent transition">Guides</a></li>
+                    <li><a href="#" class="text-gray-400 hover:text-accent transition">Help Center</a></li>
+                    <li><a href="#" class="text-gray-400 hover:text-accent transition">Webinars</a></li>
+                    <li><a href="#" class="text-gray-400 hover:text-accent transition">Community</a></li>
+                </ul>
+            </div>
+            
+            <div>
+                <h4 class="font-bold text-lg mb-4">Company</h4>
+                <ul class="space-y-3">
+                    <li><a href="#" class="text-gray-400 hover:text-accent transition">About Us</a></li>
+                    <li><a href="#" class="text-gray-400 hover:text-accent transition">Careers</a></li>
+                    <li><a href="#" class="text-gray-400 hover:text-accent transition">Privacy</a></li>
+                    <li><a href="#" class="text-gray-400 hover:text-accent transition">Terms</a></li>
+                    <li><a href="#" class="text-gray-400 hover:text-accent transition">Contact</a></li>
+                </ul>
+            </div>
+        </div>
+        
+        <div class="border-t border-gray-800 mt-16 pt-8 flex flex-col md:flex-row justify-between items-center">
+            <p class="text-gray-500 mb-4 md:mb-0">© 2023 NeuraFlow. All rights reserved.</p>
+            <div class="flex space-x-6">
+                <a href="#" class="text-gray-500 hover:text-accent transition">Privacy Policy</a>
+                <a href="#" class="text-gray-500 hover:text-accent transition">Terms of Service</a>
+                <a href="#" class="text-gray-500 hover:text-accent transition">Cookie Policy</a>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+ // Dark Mode Toggle
+      const toggleDarkMode = document.getElementById("toggleDarkMode");
+      const html = document.documentElement;
+
+      toggleDarkMode.addEventListener("click", () => {
+        html.classList.toggle("dark");
+        const icon = toggleDarkMode.querySelector("i");
+
+        if (html.classList.contains("dark")) {
+          icon.classList.remove("fa-sun", "text-yellow-500");
+          icon.classList.add("fa-moon", "text-accent");
+        } else {
+          icon.classList.remove("fa-moon", "text-accent");
+          icon.classList.add("fa-sun", "text-yellow-500");
+        }
+      });
+
+        // FAQ accordion
+        const accordions = document.querySelectorAll('.accordion');
+        accordions.forEach(accordion => {
+            const header = accordion.querySelector('.accordion-header');
+            const icon = header.querySelector('i');
+            
+            header.addEventListener('click', () => {
+                accordion.classList.toggle('active');
+                
+                if (accordion.classList.contains('active')) {
+                    icon.classList.remove('fa-chevron-down');
+                    icon.classList.add('fa-chevron-up');
+                } else {
+                    icon.classList.remove('fa-chevron-up');
+                    icon.classList.add('fa-chevron-down');
+                }
+            });
+        });
+
+        // Smooth scrolling for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+        function updateClock() {
+            const now = new Date();
+            const h = String(now.getHours()).padStart(2, '0');
+            const m = String(now.getMinutes()).padStart(2, '0');
+            const s = String(now.getSeconds()).padStart(2, '0');
+            document.getElementById('clock').textContent = `${h}:${m}:${s}`;
+        }
+        setInterval(updateClock, 1000);
+        updateClock();
+
+        function formatDateBR() {
+            const dias = ["Domingo", "Segunda", "Terça", "Quarta", "Quinta", "Sexta", "Sábado"];
+            const meses = ["janeiro", "fevereiro", "março", "abril", "maio", "junho", "julho", "agosto", "setembro", "outubro", "novembro", "dezembro"];
+            const now = new Date();
+            const diaSemana = dias[now.getDay()];
+            const dia = now.getDate();
+            const mes = meses[now.getMonth()];
+            const ano = now.getFullYear();
+            return `${diaSemana}, ${dia} de ${mes} de ${ano}`;
+        }
+        document.getElementById('date').textContent = formatDateBR();
+</script>
+
+
+    </script>
+<p style="border-radius: 8px; text-align: center; font-size: 12px; color: #fff; margin-top: 16px;position: fixed; left: 8px; bottom: 8px; z-index: 10; background: rgba(0, 0, 0, 0.8); padding: 4px 8px;">Made with <img src="https://enzostvs-deepsite.hf.space/logo.svg" alt="DeepSite Logo" style="width: 16px; height: 16px; vertical-align: middle;display:inline-block;margin-right:3px;filter:brightness(0) invert(1);"><a href="https://enzostvs-deepsite.hf.space" style="color: #fff;text-decoration: underline;" target="_blank" >DeepSite</a> - <a href="https://enzostvs-deepsite.hf.space?remix=ahakobyan/testspace" style="color: #fff;text-decoration: underline;" target="_blank" >🧬 Remix</a></p></body>
+</html>
