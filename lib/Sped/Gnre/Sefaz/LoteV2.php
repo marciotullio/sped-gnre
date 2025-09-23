@@ -279,9 +279,6 @@ class LoteV2 extends Lote {
             if ($gnreGuia->c33_dataPagamento) {
                 $dados->appendChild($dataPagamento);
             }
-
-            $dados->appendChild($identificadorGuia);
-
             $guia->appendChild($dados);
             $gnre->appendChild($loteGnre);
             $loteGnre->appendChild($guia);
