@@ -135,7 +135,7 @@ abstract class Rules
 
     abstract protected function getNumeroDeControle();
 
-    abstract protected function getIdentificadorGuia();
+
 
     abstract protected function getNumeroProtocolo();
 
@@ -206,7 +206,6 @@ abstract class Rules
                 $this->getRepresentacaoNumerica();
                 $this->getCodigoBarras();
                 $this->getNumeroDeControle();
-                $this->getIdentificadorGuia();
 
                 $lote->addGuia($this->lote['lote'][$i]);
             } elseif ($this->identificador == self::GUIA_EMITIDA_COM_SUCESSO) {

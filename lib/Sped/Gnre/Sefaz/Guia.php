@@ -267,7 +267,6 @@ class Guia
      * http://www.gnre.pe.gov.br/gnre/index.html
      * @var    string
      */
-    private $c42_identificadorGuia;
 
     /**
      * Dados retornados pelo web service da SEFAZ
