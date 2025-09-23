@@ -58,7 +58,7 @@ $guia->c39_camposExtras = array(
     ),
 );
 
-$lote = new Sped\Gnre\Sefaz\Lote();
+$lote = new Sped\Gnre\Sefaz\LoteV2();
 $lote->addGuia($guia);
 
 header('Content-Type: text/xml');

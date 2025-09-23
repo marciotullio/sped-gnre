@@ -281,7 +281,7 @@ class LoteV2 extends Lote {
             $loteGnre->appendChild($guia);
         }
 
-        $this->getSoapEnvelop($gnre, $loteGnre);
+//        $this->getSoapEnvelop($gnre, $loteGnre);
 
         return $gnre->saveXML();
     }
