@@ -48,8 +48,13 @@ class LoteV2 extends Lote {
         $soapEnv->setAttribute('xmlns:xsd', 'http://www.w3.org/2001/XMLSchema');
         $soapEnv->setAttribute('xmlns:soap12', 'http://www.w3.org/2003/05/soap-envelope');
 
+        // Namespace consistente para o ambiente
+        $namespace = $this->ambienteDeTesteV2 ?
+            'http://www.testegnre.pe.gov.br/webservice/GnreLoteRecepcao' :
+            'http://www.gnre.pe.gov.br/webservice/GnreLoteRecepcao';
+
         $gnreCabecalhoSoap = $gnre->createElement('gnreCabecMsg');
-        $gnreCabecalhoSoap->setAttribute('xmlns', 'https://www.gnre.pe.gov.br/wsdl/GnreLoteRecepcao');
+        $gnreCabecalhoSoap->setAttribute('xmlns', $namespace);
         $gnreCabecalhoSoap->appendChild($gnre->createElement('versaoDados', '2.00'));
 
         $soapHeader = $gnre->createElement('soap12:Header');
@@ -58,12 +63,11 @@ class LoteV2 extends Lote {
         $soapEnv->appendChild($soapHeader);
         $gnre->appendChild($soapEnv);
 
-        $action = $this->ambienteDeTesteV2 ?
-            'https://www.testegnre.pe.gov.br/webservice/GnreLoteRecepcao' :
-            'https://www.gnre.pe.gov.br/webservice/GnreLoteRecepcao';
-
         $gnreDadosMsg = $gnre->createElement('gnreDadosMsg');
-        $gnreDadosMsg->setAttribute('xmlns', $action);
+        $gnreDadosMsg->setAttribute('xmlns', $namespace);
+
+        // Ajustar o namespace do TLote_GNRE
+        $loteGnre->setAttribute('xmlns', $namespace);
 
         $gnreDadosMsg->appendChild($loteGnre);
 
