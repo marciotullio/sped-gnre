@@ -33,10 +33,13 @@ class LoteV2 extends Lote {
         return $this;
     }
 
-    public function getAmbiente()
+    public function getAmbiente(): string
     {
-
+        return $this->ambienteDeTesteV2
+            ? 'https://www.testegnre.pe.gov.br/webservice/GnreLoteRecepcao'
+            : 'https://www.gnre.pe.gov.br/webservice/GnreLoteRecepcao';
     }
+
 
     public function getSoapEnvelop($gnre, $loteGnre)
     {
