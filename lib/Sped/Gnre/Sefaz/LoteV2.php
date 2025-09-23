@@ -115,8 +115,7 @@ class LoteV2 extends Lote {
                 $dataPagamento = $gnre->createElement('dataPagamento', $gnreGuia->c33_dataPagamento);
             }
 
-            $identificadorGuia = $gnre->createElement('identificadorGuia', '1');
-
+         
 
             // Trata os dados dos emitente
             $razaoSocial = $gnre->createElement('razaoSocial', $gnreGuia->c16_razaoSocialEmitente);
