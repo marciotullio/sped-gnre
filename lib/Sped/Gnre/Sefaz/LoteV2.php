@@ -33,6 +33,10 @@ class LoteV2 extends Lote {
         return $this;
     }
 
+    /**
+     * RETORNA O AMBIENTE ATUAL
+     * @return string
+     */
     public function getAmbiente(): string
     {
         return $this->ambienteDeTesteV2
@@ -223,8 +227,6 @@ class LoteV2 extends Lote {
             $contribuinteDestinatario->appendChild($identificacao);
             $contribuinteDestinatario->appendChild($razaoSocial);
             $contribuinteDestinatario->appendChild($municipio);
-
-
 
             if ($receita->nodeValue) {
                 $item->appendChild($receita);
