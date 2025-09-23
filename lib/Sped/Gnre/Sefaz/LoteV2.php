@@ -285,9 +285,6 @@ class LoteV2 extends Lote {
 
             $dados->appendChild($identificadorGuia);
 
-
-
-
             $guia->appendChild($dados);
             $gnre->appendChild($loteGnre);
             $loteGnre->appendChild($guia);
