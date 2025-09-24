@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<soap12:Envelope
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+        xmlns:soap12="http://www.w3.org/2003/05/soap-envelope">
+
+    <soap12:Header>
+        <gnreCabecMsg xmlns="http://www.testegnre.pe.gov.br/webservice/GnreLoteRecepcao">
+            <versaoDados>2.00</versaoDados>
+        </gnreCabecMsg>
+    </soap12:Header>
+
+    <soap12:Body>
+        <gnreDadosMsg xmlns="http://www.testegnre.pe.gov.br/webservice/GnreLoteRecepcao">
+            <TLote_GNRE versao="2.00" xmlns="http://www.gnre.pe.gov.br">
+                <guias>
+                    <TDadosGNRE versao="2.00">
+                        <ufFavorecida>RJ</ufFavorecida>
+                        <tipoGnre>0</tipoGnre>
+
+                        <contribuinteEmitente>
+                            <identificacao>
+                                <CNPJ>09093659000104</CNPJ>
+                            </identificacao>
+                            <razaoSocial>CIMAG INDUSTRIA E COMERCIO DE MAQUINAS E PECAS LTDA</razaoSocial>
+                            <endereco>RUA BARAO DO TRIUNFO</endereco>
+                            <municipio>07507</municipio>
+                            <uf>PB</uf>
+                            <cep>58010400</cep>
+                            <telefone>8332214870</telefone>
+                        </contribuinteEmitente>
+
+                        <itensGNRE>
+                            <item>
+                                <receita>100102</receita>
+                                <documentoOrigem tipo="24">25240109093659000104550010000273991000285104</documentoOrigem>
+                                <dataVencimento>2025-09-24</dataVencimento>
+
+                                <valor tipo="11">65.70</valor>
+                                <valor tipo="21">65.70</valor>
+
+                                <contribuinteDestinatario>
+                                    <identificacao>
+                                        <CNPJ>00394502054589</CNPJ>
+                                    </identificacao>
+                                    <razaoSocial>COMANDO DA MARINHA</razaoSocial>
+                                    <municipio>03302</municipio>
+                                </contribuinteDestinatario>
+
+                                <camposExtras>
+                                    <campoExtra>
+                                        <codigo>132</codigo>
+                                        <valor>2025-09-23</valor>
+                                    </campoExtra>
+                                </camposExtras>
+                            </item>
+                        </itensGNRE>
+
+                        <valorGNRE>65.70</valorGNRE>
+                        <dataPagamento>2025-09-24</dataPagamento>
+                    </TDadosGNRE>
+                </guias>
+            </TLote_GNRE>
+        </gnreDadosMsg>
+    </soap12:Body>
+
+</soap12:Envelope>

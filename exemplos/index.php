@@ -22,3 +22,7 @@
 <p>
     <a href="extrair-dados-certificado.php">Extrair dados certificado</a>
 </p>
+
+<p>
+    <a href="teste.php">TESTAR XML DE ADAM</a>
+</p>
