@@ -85,7 +85,7 @@ class LoteV2 extends Lote {
         $loteGnre = $gnre->createElement('TLote_GNRE');
 
         $loteXmlns = $gnre->createAttribute('xmlns');
-        $loteXmlns->value = 'http://www.testegnre.pe.gov.br/webservice/GnreLoteRecepcao';
+        $loteXmlns->value = 'http://www.gnre.pe.gov.br';
 
         $loteVersao = $gnre->createAttribute('versao');
         $loteVersao->value = '2.00';
