@@ -80,6 +80,7 @@
 			<xs:enumeration value="item_camposExtras_campoExtra_valor" />
 			<xs:enumeration value="valorGNRE" />
 			<xs:enumeration value="dataPagamento" />
+			<xs:enumeration value="identificadorGuia" />
 	  		<xs:enumeration value="dataLimitePagamento" />
 	  		<xs:enumeration value="informacoesComplementares" />
 	  		<xs:enumeration value="informacoesComplementares_informacao" />
