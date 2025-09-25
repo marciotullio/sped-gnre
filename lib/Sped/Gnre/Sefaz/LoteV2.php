@@ -160,10 +160,9 @@ class LoteV2 extends Lote {
 
             $tipoDoc = $gnre->createAttribute('tipo');
 
-            if ($gnreGuia->c28_tipoDocOrige)
-            {
-                $tipoDoc->value = $gnreGuia->c28_tipoDocOrigem;
-            }
+
+            $tipoDoc->value = $gnreGuia->c28_tipoDocOrigem;
+
 
             $documentoOrigem->appendChild($tipoDoc);
 
