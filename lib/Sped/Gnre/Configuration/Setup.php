@@ -134,7 +134,7 @@ abstract class Setup
 
     /**
      * Método que retorna o caminho e o nome do arquivo extraido do certificado por exemplo
-     * /var/www/certificado_pem.pemhttps://www.mercadolivre.com.br/samsung-galaxy-a20-dual-sim-32-gb-preto-3-gb-ram-bom-recondicionado/p/MLB2000122760?matt_tool=18956390&utm_source=google_shopping&utm_medium=organic&pdp_filters=item_id%3AMLB4090349419&from=gshop
+     * /var/www/certificado_pem.pem
      * @abstract
      * @since   1.0.0
      * @return  string
