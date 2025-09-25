@@ -157,9 +157,16 @@ class LoteV2 extends Lote {
 
             $receita = $gnre->createElement('receita', $gnreGuia->c02_receita);
             $documentoOrigem = $gnre->createElement('documentoOrigem', $gnreGuia->c04_docOrigem);
+
             $tipoDoc = $gnre->createAttribute('tipo');
-            $tipoDoc->value = $gnreGuia->c28_tipoDocOrigem;
+
+            if ($gnreGuia->c28_tipoDocOrige)
+            {
+                $tipoDoc->value = $gnreGuia->c28_tipoDocOrigem;
+            }
+
             $documentoOrigem->appendChild($tipoDoc);
+            
             $referencia = $gnre->createElement('referencia');
             $periodo =  $gnre->createElement('periodo', '0');
             $referencia->appendChild($periodo);
