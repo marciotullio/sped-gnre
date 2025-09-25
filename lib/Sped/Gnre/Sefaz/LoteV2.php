@@ -49,7 +49,7 @@ class LoteV2 extends Lote {
         $soapEnv->setAttribute('xmlns:soap12', 'http://www.w3.org/2003/05/soap-envelope');
 
         $gnreCabecalhoSoap = $gnre->createElement('gnreCabecMsg');
-        $gnreCabecalhoSoap->setAttribute('xmlns', 'https://www.gnre.pe.gov.br/wsdl/GnreLoteRecepcao');
+        $gnreCabecalhoSoap->setAttribute('xmlns', 'https://www.gnre.pe.gov.br/wsdl/processar');
         $gnreCabecalhoSoap->appendChild($gnre->createElement('versaoDados', '2.00'));
 
         $soapHeader = $gnre->createElement('soap12:Header');
@@ -166,7 +166,7 @@ class LoteV2 extends Lote {
             }
 
             $documentoOrigem->appendChild($tipoDoc);
-            
+
             $referencia = $gnre->createElement('referencia');
             $periodo =  $gnre->createElement('periodo', '0');
             $referencia->appendChild($periodo);
