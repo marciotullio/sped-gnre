@@ -44,7 +44,7 @@ class LoteV2 extends Lote {
     public function getSoapEnvelop($gnre, $loteGnre)
     {
         $soapEnv = $gnre->createElement('soap12:Envelope');
-        $soapEnv->setAttribute('xmlns:xsi', 'http://www.w3.org/2001/XMLSchema-instance');
+//        $soapEnv->setAttribute('xmlns:xsi', 'http://www.w3.org/2001/XMLSchema-instance');
         $soapEnv->setAttribute('xmlns:xsd', 'http://www.w3.org/2001/XMLSchema');
         $soapEnv->setAttribute('xmlns:soap12', 'http://www.w3.org/2003/05/soap-envelope');
 
